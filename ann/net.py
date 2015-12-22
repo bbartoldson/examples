@@ -3,96 +3,96 @@ import random
 import numpy
 import matplotlib.pyplot as plt
 
-a = 2
-b = 3
-c = -4
-d = 0
+neurons = 10
+acceptable_error = .0001 #stops updating if the average squared error is less than this
+max_iter = 100000 #stops updating if this number of iterations is reached
+updates = 5 #number of times to calculate the average error (and write it to the console)
 
-da=0
-db=0
-dc=0
-dd = 0
+update_iter = max_iter / updates - 1
 
-a1 = 1
-a2 = 2
-b1 = 3
-b2 = 4
-c1 = 1
-c2 = 3
+#the one-neuron function to predict sin(x) is: y = a * max(0, a1 * x + a2) + b
+a = []
+a1 = []
+a2 = []
+da = []
+da1 = []
+da2 = []
+linear_combo = [] #this is a1 * x + a2
+b = 0.0
+db = 0.0
 
-da1 = 0
-da2 = 0
-db1 = 0
-db2 = 0
-dc1 = 0
-dc2 = 0
+for i in range(neurons):
+	a.append(random.uniform(-1, 1))
+	a1.append(random.uniform(-1,1))
+	a2.append(0.0)
+	linear_combo.append(0.0)
+	da.append(0.0)
+	da1.append(0.0)
+	da2.append(0.0)
 
 avg_error = 0
+current_error = 10
 
-for x in range (1, 50000):
+x = 1
 
+#perhaps have the code increase the number of neurons if acceptable error isn't met
+#in a future version of the code
+while x < max_iter and current_error > acceptable_error:
+	
+	#get new input between -pi and pi
 	input = random.uniform(-pi, pi)
 	act = sin(input)
+	predict = 0
 
-	#update and predict
-	a += da
+	#update weights and predict sin(input) from the input
+	for i in range(neurons):
+		a[i] += da[i]
+		a1[i] += da1[i]
+		a2[i] += da2[i]
+		linear_combo[i] = a1[i] * input + a2[i]
+		if (linear_combo[i] > 0):
+			predict += a[i] * linear_combo[i]
 	b += db
-	c += dc
-	d += dd
+	predict += b
 
-	a1 += da1
-	a2 += da2
-	
-	b1 += db1
-	b2 += db2
-
-	c1 += dc1
-	c2 += dc2
-
-	a_stuff = a1*input + a2
-	b_stuff = b1*input + b2
-	c_stuff = c1*input + c2
-
-	predict = a * max(0, a_stuff)  + b * max(0, b_stuff) + c * max(0, c_stuff) + d
-	
+	#calculate error, write avg error to console if needed	
 	error = (act - predict) ** 2
 	avg_error += error
-
-	if (x % 5000 == 0):
-		avg_error /= 3000
-		print(avg_error)
+	if (x % update_iter == 0):
+		avg_error /= update_iter
+		print("Avg squared error: ", avg_error)
+		current_error = avg_error
 		avg_error = 0
 	
-	step = .0001
+	#calculate weight changes
+	step = .001
 	sign = numpy.sign(act - predict)
+	for i in range(neurons):
+		if (linear_combo[i] > 0):
+			da[i] = step * linear_combo[i] * sqrt(error) * sign	
+			da1[i] = step * a[i] * input * sqrt(error) * sign
+			da2[i] = step * a[i] * sqrt(error) * sign
+	db = step * sqrt(error) * sign
+	
+	x += 1
 
-	if (a_stuff > 0):
-		da = step * a_stuff * sqrt(error) * sign	
-		da1 = step * a * input * sqrt(error) * sign
-		da2 = step * a * sqrt(error) * sign
-	if (b_stuff > 0):
-		db = step * b_stuff * sqrt(error) * sign
-		db1 = step * b * input * sqrt(error) * sign
-		db2 = step * b * sqrt(error) * sign
-	if (c_stuff > 0):
-		dc = step * c_stuff * sqrt(error) * sign
-		dc1 = step * c * input * sqrt(error) * sign
-		dc2 = step * c * sqrt(error) * sign
-	dd = step * sqrt(error) * sign
-
+#plot sin(x) against predictions for 100 values of x between -pi and pi
 test = []
 out = []
+sine = []
 
 for y in range (100):
 	
 	input = -pi + y * 2 * pi / 99
-
 	test.append(input)
+	sine.append(sin(input))
 
-	output = a * max(0, a1*input + a2) + b * max(0, b1*input + b2) + c * max(0, c1* input + c2)
-	
+	output = 0
+	for i in range(neurons):
+		output += a[i] * max(0, a1[i] * input + a2[i])
+	output += b
 	out.append(output)
 
-
-plt.plot(test, out)
+plt.plot(test, out, 'gs', test, sine)
+plt.axis([-pi, pi, -1.5, 1.5])
 plt.show()	

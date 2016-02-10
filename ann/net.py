@@ -60,7 +60,7 @@ while x < max_iter and current_error > acceptable_error:
 	avg_error += error
 	if (x % update_iter == 0):
 		avg_error /= update_iter
-		print("Avg squared error: ", avg_error)
+                print('Iter: {}, Avg squared error: {:.5}'.format(x, avg_error))
 		current_error = avg_error
 		avg_error = 0
 	

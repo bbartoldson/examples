@@ -1,7 +1,7 @@
 import random
 
 success = 0
-switch = input("\nEnter your strategy (0=don't switch, 1=switch):\n")
+switch = input("\nEnter your strategy (0 for don't switch, 1 for switch):\n")
 N = 10000
 
 for i in range(N):

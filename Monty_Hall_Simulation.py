@@ -12,11 +12,12 @@ for i in range(N):
 	while door_to_reveal == car or choice == door_to_reveal:
 		door_to_reveal = random.randint(0,2)
 
-	final_choice = choice
-	
+	final_choice = 0	
 	if switch:
-		while choice == final_choice or final_choice == door_to_reveal:
-			final_choice = random.randint(0,2)
+		while final_choice == choice or final_choice == door_to_reveal:
+			final_choice += 1
+	else:
+		final_choice = choice
 
 	success += final_choice == car
 

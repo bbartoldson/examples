@@ -1,4 +1,4 @@
-# A repository for snippets of code for side projects.
+# A repository for side projects.
 
 ## Completed projects:
 

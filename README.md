@@ -1,4 +1,4 @@
-# A repository for side projects.
+# A repository for illustrative programs
 
 ## Completed:
 

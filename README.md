@@ -1,6 +1,9 @@
-# A repository for snippets of code for side projects.
+# A repository for illustrative programs
 
-## Completed projects:
+## Completed:
 
-	-Neural network from scratch a la Andrej Karpathy
-	-Monte Carlo simulation that illustrates the solution for the Monty Hall Problem; apparently a simulation was needed to convince Paul Erdos of the solution
+Neural network from scratch a la Andrej Karpathy's [Hacker's Guide](http://karpathy.github.io/neuralnets/)
+
+Monte Carlo simulation that illustrates the solution for the [Monty Hall Problem](https://en.wikipedia.org/wiki/Monty_Hall_problem)
+
+Pong-playing TensorFlow neural network inspired by Karpathy's [Pong from Pixels](http://karpathy.github.io/2016/05/31/rl/)

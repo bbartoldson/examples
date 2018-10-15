@@ -2,6 +2,7 @@ import random
 
 success = 0
 switch = input("\nEnter your strategy (0 for don't switch, 1 for switch):\n")
+
 N = 10000
 
 for i in range(N):
@@ -13,7 +14,7 @@ for i in range(N):
 		door_to_reveal = random.randint(0,2)
 
 	final_choice = 0	
-	if switch:
+	if switch == "1":
 		while final_choice == choice or final_choice == door_to_reveal:
 			final_choice += 1
 	else:
@@ -21,11 +22,11 @@ for i in range(N):
 
 	success += final_choice == car
 
-if switch:
-	print "\nYou switched doors...\n"
+if switch == "1":
+	print("\nYou switched doors...\n")
 else:
-	print "\nYou did not switch doors...\n"
-print "\nYour win rate was: ", float(success)/N, "\n"
+	print("\nYou did not switch doors...\n")
+print("\nYour win rate was: ", float(success)/N, "\n")
 	
 
 	

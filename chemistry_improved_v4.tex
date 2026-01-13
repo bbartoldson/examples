@@ -39,31 +39,31 @@
             font=\footnotesize,
             blur shadow={shadow blur steps=5, shadow xshift=0.3pt, shadow yshift=-0.3pt, shadow blur radius=1pt}
         },
-        in/.style={mol, fill=teal!8, draw=teal!45},
-        step/.style={mol, fill=teal!24, draw=teal!60},
-        out/.style={mol, fill=teal!45, draw=teal!75, font=\footnotesize\bfseries},
+        molinput/.style={mol, fill=teal!8, draw=teal!45},
+        molstep/.style={mol, fill=teal!24, draw=teal!60},
+        moloutput/.style={mol, fill=teal!45, draw=teal!75, font=\footnotesize\bfseries},
         arr/.style={-{Stealth[length=2mm]}, line width=1.2pt, teal!65!black},
         merge/.style={{Circle[length=1.5mm, fill=teal!30]}-{Stealth[length=2mm]}, line width=1.2pt, teal!65!black}
     ]
         % Inputs arranged in two groups
-        \node[in] (m1) {Mol-1};
-        \node[in, below=0.35cm of m1] (m2) {Mol-2};
+        \node[molinput] (m1) {Mol-1};
+        \node[molinput, below=0.35cm of m1] (m2) {Mol-2};
 
-        \node[in, below=1.1cm of m2] (m6) {Mol-6};
-        \node[in, below=0.35cm of m6] (m7) {Mol-7};
+        \node[molinput, below=1.1cm of m2] (m6) {Mol-6};
+        \node[molinput, below=0.35cm of m6] (m7) {Mol-7};
 
         % First level products
-        \node[step, right=1.6cm of m1.east, yshift=-0.175cm] (m3) {Mol-3};
-        \node[step, right=1.6cm of m6.east, yshift=-0.175cm] (m8) {Mol-8};
+        \node[molstep, right=1.6cm of m1.east, yshift=-0.175cm] (m3) {Mol-3};
+        \node[molstep, right=1.6cm of m6.east, yshift=-0.175cm] (m8) {Mol-8};
 
         % Second input
-        \node[in, right=1.6cm of m3.east] (m4) {Mol-4};
+        \node[molinput, right=1.6cm of m3.east] (m4) {Mol-4};
 
         % Second level product
-        \node[step, right=1.6cm of m4.east, yshift=-0.8cm] (m5) {Mol-5};
+        \node[molstep, right=1.6cm of m4.east, yshift=-0.8cm] (m5) {Mol-5};
 
         % Final output
-        \node[out, right=2.0cm of m5.east, yshift=-0.3cm] (final) {Output};
+        \node[moloutput, right=2.0cm of m5.east, yshift=-0.3cm] (final) {Output};
 
         % Arrows - merge arrows for combinations
         \draw[merge] (m1.east) -- (m3.west);

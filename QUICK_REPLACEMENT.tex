@@ -1,0 +1,182 @@
+% ============================================================================
+% DROP-IN REPLACEMENT FOR YOUR CHEMISTRY DIAGRAM
+% ============================================================================
+% Simply copy the figure environment below and paste it in place of your
+% current chemistry diagram. This is Version 2 (left-to-right flow).
+%
+% Required packages (add to your preamble if not already there):
+% \usepackage{tikz}
+% \usetikzlibrary{positioning,arrows.meta}
+% \usepackage{tcolorbox}
+% \usepackage{fontawesome5}
+% \usepackage{xcolor}
+%
+% Make sure you have defined \benchmark somewhere:
+% \newcommand{\benchmark}{ChemChain}  % or whatever your benchmark name is
+% ============================================================================
+
+\begin{figure}[t]
+    \centering
+
+    % Chemistry problem with improved visual clarity
+    \begin{tcolorbox}[
+        title=\textbf{Chemistry: Reaction Cascade} \hfill {\small\colorbox{teal!20}{Medium} \quad 9 steps},
+        colframe=teal!70!black,
+        colback=teal!3,
+        boxrule=0.8pt,
+        width=\textwidth
+    ]
+    \small
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[opacity=0.05, anchor=east] at ([xshift=-0.4cm, yshift=0.2cm]current page.east) {\Huge\faFlask};
+    \end{tikzpicture}
+
+    \textbf{Dependency graph:}
+    \begin{center}
+    \begin{tikzpicture}[
+        node distance=0.8cm and 1.1cm,
+        every node/.style={font=\footnotesize},
+        mol/.style={draw, rounded corners=2.5pt, minimum width=1.1cm, minimum height=0.65cm, thick},
+        lvl0/.style={mol, fill=teal!10, draw=teal!40},
+        lvl1/.style={mol, fill=teal!25, draw=teal!60},
+        lvl2/.style={mol, fill=teal!40, draw=teal!70},
+        lvl3/.style={mol, fill=teal!55, draw=teal!80, font=\footnotesize\bfseries},
+        arrow/.style={-{Stealth[length=2mm]}, thick, teal!65!black}
+    ]
+        % Column 1: Initial molecules
+        \node[lvl0] (m1) {Mol-1};
+        \node[lvl0, below=0.5cm of m1] (m2) {Mol-2};
+        \node[lvl0, below=1.2cm of m2] (m4) {Mol-4};
+        \node[lvl0, below=1.2cm of m4] (m6) {Mol-6};
+        \node[lvl0, below=0.5cm of m6] (m7) {Mol-7};
+
+        % Column 2: First reactions
+        \node[lvl1, right=1.4cm of m1.east, yshift=-0.35cm] (m3) {Mol-3};
+        \node[lvl1, right=1.4cm of m6.east, yshift=-0.35cm] (m8) {Mol-8};
+
+        % Column 3: Second reaction
+        \node[lvl2, right=1.4cm of m3.east, yshift=-0.9cm] (m5) {Mol-5};
+
+        % Column 4: Final output
+        \node[lvl3, right=1.4cm of m5.east, yshift=-0.5cm] (out) {Output};
+
+        % Draw arrows
+        \draw[arrow] (m1.east) -- (m3.west);
+        \draw[arrow] (m2.east) -- (m3.west);
+        \draw[arrow] (m3.east) -- (m5.west);
+        \draw[arrow] (m4.east) -- (m5.west);
+        \draw[arrow] (m6.east) -- (m8.west);
+        \draw[arrow] (m7.east) -- (m8.west);
+        \draw[arrow] (m5.east) -- (out.west);
+        \draw[arrow] (m8.east) -| ([xshift=0.5cm]m8.east) |- (out.west);
+        \draw[arrow] (m7.east) -| ([xshift=0.9cm]m7.east) |- (out.west);
+    \end{tikzpicture}
+    \end{center}
+
+    \vspace{0.1cm}
+    \begin{tabular}{@{}p{0.48\textwidth}p{0.48\textwidth}@{}}
+    \textit{Sample step (Subproblem 3):} React Mol-1 + Mol-2 in THF at room temp. Predict major product. &
+    \textit{Final step:} Count hydrogens in Mol-5, Mol-7, Mol-8. \\
+    \end{tabular}
+
+    \vspace{0.25cm}
+    \hfill \textbf{Answer:} \texttt{[19, 15, 23]}
+    \end{tcolorbox}
+
+    \vspace{0.3cm}
+
+    % Two-column for Chess and Math (unchanged from original)
+    \begin{minipage}{0.48\textwidth}
+        \begin{tcolorbox}[
+            title=\textbf{Chess: Minimax Search} \hfill {\small\colorbox{orange!20}{Easy}},
+            colframe=orange!70!black,
+            colback=orange!3,
+            boxrule=0.8pt
+        ]
+        \footnotesize
+
+        \begin{center}
+        \begin{tikzpicture}[scale=0.38]
+            % Draw 5x5 board
+            \foreach \x in {0,...,4} {
+                \foreach \y in {0,...,4} {
+                    \pgfmathparse{mod(\x+\y,2) ? "gray!30" : "white"}
+                    \fill[\pgfmathresult] (\x,\y) rectangle (\x+1,\y+1);
+                }
+            }
+            \draw[thick] (0,0) grid (5,5);
+            % Knight at (0,4)
+            \node at (0.5,4.5) {\small$\symknight$};
+            % Pawns
+            \node at (2.5,4.5) {\small$\sympawn$};
+            \node at (3.5,2.5) {\small$\sympawn$};
+            \node at (1.5,1.5) {\small$\sympawn$};
+        \end{tikzpicture}
+        \end{center}
+
+        \vspace{-0.2cm}
+        Alice (max) and Bob (min) alternate capturing pawns with the knight. Each capture uses minimum moves. Find max total moves under optimal play.
+
+        \vspace{0.2cm}
+        \textit{Requires:} BFS + minimax over $3!$ orderings
+
+        \vspace{0.2cm}
+        \hfill \textbf{Answer:} [Redacted]
+        \end{tcolorbox}
+    \end{minipage}%
+    \hfill%
+    \begin{minipage}{0.50\textwidth}
+        \begin{tcolorbox}[
+            title=\textbf{Math: Dependent Problem Chain} \hfill {\small\colorbox{violet!20}{6 nodes}},
+            colframe=violet!70!black,
+            colback=violet!3,
+            boxrule=0.8pt
+        ]
+        \footnotesize
+
+        \begin{center}
+        \begin{tikzpicture}[node distance=0.35cm, every node/.style={font=\tiny, inner sep=2pt}]
+            \node[draw, circle, fill=violet!20] (n0) {$N_0$};
+            \node[draw, circle, fill=violet!20, right=of n0] (n1) {$N_1$};
+            \node[draw, circle, fill=violet!20, right=of n1] (n2) {$N_2$};
+            \node[draw, circle, fill=violet!20, right=of n2] (n3) {$N_3$};
+            \node[draw, circle, fill=violet!20, right=of n3] (n4) {$N_4$};
+            \node[draw, circle, fill=violet!40, right=of n4] (n5) {$N_5$};
+            \draw[->, thick] (n0) -- (n1);
+            \draw[->, thick] (n1) -- (n2);
+            \draw[->, thick] (n2) -- (n3);
+            \draw[->, thick] (n3) -- (n4);
+            \draw[->, thick] (n4) -- (n5);
+            \draw[->, thick, bend left=40] (n1) to (n4);
+            \draw[->, thick, bend left=50] (n2) to (n5);
+        \end{tikzpicture}
+        \end{center}
+
+        \vspace{-0.1cm}
+        \renewcommand{\arraystretch}{1.1}
+        \begin{tabular}{@{}r@{: }p{5.8cm}@{}}
+        $N_0$ & Guessing game strategies (59 values, 5 guesses) \\
+        $N_1$ & Triangle area product ($RL = N_0 - 36428$) \\
+        $\vdots$ & \textit{Each node transforms prior answers} \\
+        $N_5$ & Block-splitting expected value \\
+        \end{tabular}
+
+        \vspace{0.2cm}
+        \hfill \textbf{Answer:} [Redacted]
+        \end{tcolorbox}
+    \end{minipage}
+
+    \caption{\textbf{\benchmark} problems require compositional reasoning: solving intermediate subproblems whose outputs feed downstream steps. \colorbox{teal!15}{Selection steps} identify molecules/values; \colorbox{teal!35}{reaction steps} combine them. Chains span 6--9 nodes and thousands of reasoning tokens.}
+    \label{fig:sample-problems}
+\end{figure}
+
+% ============================================================================
+% WHAT CHANGED:
+% - Spacing increased: 0.6cm → 0.8-1.4cm
+% - Better color progression: lvl0 (light) → lvl3 (dark)
+% - Larger, more consistent node sizes
+% - Modern arrow tips using arrows.meta
+% - Reduced background flask opacity: 0.08 → 0.05
+% - Better font sizing: scriptsize → footnotesize
+% - Cleaner arrow routing to avoid crossings
+% ============================================================================

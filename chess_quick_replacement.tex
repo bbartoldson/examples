@@ -1,0 +1,81 @@
+% ============================================================================
+% DROP-IN REPLACEMENT FOR YOUR CHESS DIAGRAM
+% ============================================================================
+% This replaces the chess minipage in your original figure.
+% It adds an explicit dependency graph showing the BFS + minimax structure.
+%
+% Required packages (add to your preamble if not already there):
+% \usepackage{tikz}
+% \usetikzlibrary{positioning,arrows.meta}
+% \usepackage{tcolorbox}
+% \usepackage{skak}  % for chess symbols
+% \usepackage{xcolor}
+% ============================================================================
+
+    \begin{minipage}{0.48\textwidth}
+        \begin{tcolorbox}[
+            title=\textbf{Chess: Minimax Search} \hfill {\small\colorbox{orange!20}{Easy}},
+            colframe=orange!70!black,
+            colback=orange!3,
+            boxrule=0.8pt
+        ]
+        \footnotesize
+
+        \textbf{Dependency graph:}
+        \begin{center}
+        \begin{tikzpicture}[
+            node distance=0.35cm and 0.4cm,
+            every node/.style={font=\tiny},
+            bfs/.style={draw, rounded corners=1.5pt, fill=orange!12, minimum width=0.55cm, minimum height=0.35cm, thick, draw=orange!45},
+            ord/.style={draw, rounded corners=1.5pt, fill=orange!28, minimum width=0.85cm, minimum height=0.35cm, thick, draw=orange!55},
+            outputnode/.style={draw, rounded corners=1.5pt, fill=orange!48, minimum width=0.7cm, minimum height=0.35cm, thick, draw=orange!70, font=\tiny\bfseries},
+            arrow/.style={-{Stealth[length=1.2mm]}, semithick, orange!55!black}
+        ]
+            % BFS layer
+            \node[bfs] (b1) {$d_{K1}$};
+            \node[bfs, right=0.15cm of b1] (b2) {$d_{K2}$};
+            \node[bfs, right=0.15cm of b2] (b3) {$d_{K3}$};
+            \node[bfs, right=0.15cm of b3] (b4) {$d_{12}$};
+            \node[bfs, right=0.15cm of b4] (b5) {$d_{13}$};
+            \node[bfs, right=0.15cm of b5] (b6) {$d_{23}$};
+
+            % Orderings layer (3! = 6)
+            \node[ord, below=0.5cm of b1, xshift=0.3cm] (o1) {1-2-3};
+            \node[ord, right=0.1cm of o1] (o2) {1-3-2};
+            \node[ord, right=0.1cm of o2] (o3) {2-1-3};
+            \node[ord, below=0.25cm of o1] (o4) {2-3-1};
+            \node[ord, right=0.1cm of o4] (o5) {3-1-2};
+            \node[ord, right=0.1cm of o5] (o6) {3-2-1};
+
+            % Output
+            \node[outputnode, below=0.45cm of o5] (out) {minimax};
+
+            % Arrows BFS to orderings (simplified)
+            \draw[arrow] (b2.south) -- ++(0,-0.12) -| (o1.north);
+            \draw[arrow] (b4.south) -- ++(0,-0.08) -| (o2.north);
+            \draw[arrow] (b6.south) -- ++(0,-0.12) -| (o3.north);
+
+            % Arrows orderings to output
+            \draw[arrow] (o4.south) -- (out.north west);
+            \draw[arrow] (o5.south) -- (out.north);
+            \draw[arrow] (o6.south) -- (out.north east);
+        \end{tikzpicture}
+        \end{center}
+
+        \vspace{-0.15cm}
+        {\scriptsize BFS computes knight distances; minimax evaluates $3!$ capture orderings (Alice max, Bob min).}
+
+        \vspace{0.15cm}
+        \hfill \textbf{Answer:} [Redacted]
+        \end{tcolorbox}
+    \end{minipage}%
+
+% ============================================================================
+% WHAT THIS SHOWS:
+% - Top row: 6 BFS computations (distances between knight K and pawns 1,2,3)
+% - Middle rows: All 3! = 6 possible capture orderings
+% - Bottom: Minimax aggregation (Alice maximizes, Bob minimizes)
+%
+% The dependency structure is:
+%   BFS distances → evaluate each ordering → minimax over all orderings
+% ============================================================================
